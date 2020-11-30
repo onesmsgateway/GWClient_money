@@ -1,0 +1,255 @@
+<article>
+  <section>
+    <div class="page-title clearfix">
+      <div class="title_left">
+        <h3>{{'general.title' | translate}}</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel portlet">
+          <div class="x_title clearfix">
+            <h2>{{ 'global.search' | translate }}</h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li><a class="collapse-link" onclick="collapseBox(this)"><i class="fa fa-chevron-up"></i></a>
+              </li>
+            </ul>
+          </div>
+          <div class="x_content">
+            <form class="row form-horizontal form-label-left input_mask">
+              <div class="col-md-2 col-sm-6 col-xs-12 form-group">
+                <angular2-multiselect [data]="dataAccount" [(ngModel)]="selectedItemComboboxAccount"
+                  [settings]="settingsFilterAccount" (onSelect)="changeAccount()" (onDeSelect)="changeAccount()"
+                  name="slAccount">
+                </angular2-multiselect>
+              </div>
+              <div class="col-md-2 col-sm-6 col-xs-12 form-group has-feedback">
+                <angular2-multiselect [data]="dataType" [(ngModel)]="selectedItemComboboxType"
+                  [settings]="settingsFilterType" name="type" (onSelect)="onItemSelectSmsType()"
+                  (onDeSelect)="onItemSelectSmsType()">
+                </angular2-multiselect>
+              </div>
+              <div class="col-md-2 col-sm-6 col-xs-12 form-group">
+                <angular2-multiselect [data]="dataSender" [(ngModel)]="selectedItemComboboxSender"
+                  [settings]="settingsFilterSender" name="senderID">
+                </angular2-multiselect>
+              </div>
+              <div class="col-md-2 col-sm-6 col-xs-12 form-group" *ngIf="showPort">
+                <angular2-multiselect [data]="dataPartner" [(ngModel)]="selectedItemComboboxPartner"
+                  [settings]="settingsFilterPartner" name="partnerCode">
+                </angular2-multiselect>
+              </div>
+              <div class="col-md-2 col-sm-6 col-xs-12 form-group">
+                <input type="text" class="form-control" name="fromDate" bsDatepicker
+                  [bsConfig]="{dateInputFormat: 'DD/MM/YYYY', selectFromOtherMonth: true}" (ngModelChange)="onChangeFromDate($event)"
+                  placeholder="{{ 'partner_product.from_date' | translate }}" [(ngModel)]="timeFrom">
+              </div>
+              <div class="col-md-2 col-sm-6 col-xs-12 form-group">
+                <input type="text" class="form-control" name="toDate" bsDatepicker
+                  [bsConfig]="{dateInputFormat: 'DD/MM/YYYY', selectFromOtherMonth: true}" placeholder="{{ 'partner_product.to_date' | translate }}"
+                  [(ngModel)]="timeTo" (ngModelChange)="onChangeToDate($event)">
+              </div>
+              <div>
+                <div class="col-md-9 col-sm-9 col-xs-12 form-group">
+                  <div class="checkbox" style="display: inline-block">
+                    <label> <input type="checkbox" class="checkbox" name="viettel" [(ngModel)]="viettel">
+                      <span>Viettel</span> </label>
+                  </div>
+                  <div class="checkbox" style="display: inline-block; margin-left: 20px;">
+                    <label><input type="checkbox" class="checkbox" name="mobiphone" [(ngModel)]="mobiphone">
+                      <span>Mobiphone</span> </label>
+                  </div>
+                  <div class="checkbox" style="display: inline-block; margin-left: 20px;">
+                    <label><input type="checkbox" class="checkbox" name="vinaphone" [(ngModel)]="vinaphone">
+                      <span>Vinaphone</span> </label>
+                  </div>
+                  <div class="checkbox" style="display: inline-block; margin-left: 20px;">
+                    <label><input type="checkbox" class="checkbox" name="vietnameMobile" [(ngModel)]="vietnameMobile">
+                      <span>VietNamobile</span> </label>
+                  </div>
+                  <div class="checkbox" style="display: inline-block; margin-left: 20px;">
+                    <label><input type="checkbox" class="checkbox" name="gtel" [(ngModel)]="gtel">
+                      <span>Gtel</span> </label>
+                  </div>
+                  <div class="checkbox" style="display: inline-block; margin-left: 20px;">
+                    <label><input type="checkbox" class="checkbox" name="sfone" [(ngModel)]="sfone">
+                      <span>Sfone</span> </label>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-12 form-group">
+                  <button type="submit" style="float: right; margin-right: 0;" class="btn btn-primary btn-sm"
+                    (click)="getData()" #btnSearch>
+                    {{ 'global.search' | translate }}</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel portlet">
+          <div class="x_title clearfix">
+            <div class="content-end">
+              <button type="submit" class="btn btn-success btn-sm"
+                (click)="exportGeneral()">{{ 'global.export_excel' | translate }}</button>
+              <button type="submit" class="btn btn-success btn-sm" *ngIf="isAdmin"
+                (click)="updateQuotaQCModal.show()">{{ 'general.update_quota_qc' | translate }}</button>
+            </div>
+          </div>
+          <div class="x_content">
+            <div class="row">
+              <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                <div style="text-align: center;">
+                  <img *ngIf="loadingGrid" class="pl-2"
+                    src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-bordered clear-bottom">
+                    <thead>
+                      <tr>
+                        <th class="text-center" style="vertical-align: middle;">
+                          {{'general.type' | translate}}</th>
+                        <th class="text-center" style="vertical-align: middle;">
+                          {{'general.sender' | translate}}</th>
+                        <th class="text-center" style="vertical-align: middle;">
+                          {{'general.telco' | translate}}</th>
+                        <th class="text-center" style="vertical-align: middle;" *ngIf="isAdmin">
+                          {{'general.port' | translate}}</th>
+                        <th class="text-center" style="vertical-align: middle;">
+                          {{'general.success' | translate}}</th>
+                        <th class="text-center" style="vertical-align: middle">
+                          {{'general.fail' | translate}}</th>
+                        <th class="text-center" style="vertical-align: middle;">
+                          {{'general.total_sms' | translate}}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngFor="let item of dataGeneral; let i = index">
+                        <tr>
+                          <td class="text-center" [attr.rowspan]="item.LENGTH_TYPE" style="vertical-align: inherit">
+                            {{item.SMS_TYPE}}</td>
+                          <td class="text-center" [attr.rowspan]="item.LIST_TYPE_SENDER[0].LENGTH_SENDER"
+                            style="vertical-align: inherit">
+                            {{item.LIST_TYPE_SENDER[0].SENDER_NAME}}</td>
+                          <td>{{item.LIST_TYPE_SENDER[0].LIST_TYPE_SENDER_TELCO[0].LIST_GENERAL[0].TELCO}}</td>
+                          <td *ngIf="isAdmin">
+                            {{item.LIST_TYPE_SENDER[0].LIST_TYPE_SENDER_TELCO[0].LIST_GENERAL[0].PARTNER_NAME}}</td>
+                          <td class="text-center">
+                            {{item.LIST_TYPE_SENDER[0].LIST_TYPE_SENDER_TELCO[0].LIST_GENERAL[0].TOTAL_SMS_SUCCESS}}
+                          </td>
+                          <td class="text-center">
+                            {{item.LIST_TYPE_SENDER[0].LIST_TYPE_SENDER_TELCO[0].LIST_GENERAL[0].TOTAL_SMS_FAIL}}</td>
+                          <td class="text-center">
+                            {{item.LIST_TYPE_SENDER[0].LIST_TYPE_SENDER_TELCO[0].LIST_GENERAL[0].TOTAL_SMS}}</td>
+                        </tr>
+                        <ng-container *ngFor="let number1 of item.LIST_TYPE_SENDER; let i1= index;">
+                          <tr *ngIf="i1!=0">
+                            <td class="text-center" [attr.rowspan]="number1.LENGTH_SENDER"
+                              style="vertical-align: inherit">
+                              {{number1.SENDER_NAME}}</td>
+                            <td>{{number1.LIST_TYPE_SENDER_TELCO[0].LIST_GENERAL[0].TELCO}}</td>
+                            <td *ngIf="isAdmin">{{number1.LIST_TYPE_SENDER_TELCO[0].LIST_GENERAL[0].PARTNER_NAME}}</td>
+                            <td class="text-center">
+                              {{number1.LIST_TYPE_SENDER_TELCO[0].LIST_GENERAL[0].TOTAL_SMS_SUCCESS}}</td>
+                            <td class="text-center">
+                              {{number1.LIST_TYPE_SENDER_TELCO[0].LIST_GENERAL[0].TOTAL_SMS_FAIL}}</td>
+                            <td class="text-center">{{number1.LIST_TYPE_SENDER_TELCO[0].LIST_GENERAL[0].TOTAL_SMS}}
+                            </td>
+                          </tr>
+                          <ng-container *ngFor="let number2 of number1.LIST_TYPE_SENDER_TELCO; let i2= index;">
+                            <tr *ngIf="i2!=0">
+                              <td>{{number2.LIST_GENERAL[0].TELCO}}</td>
+                              <td *ngIf="isAdmin">{{number2.LIST_GENERAL[0].PARTNER_NAME}}</td>
+                              <td class="text-center">{{number2.LIST_GENERAL[0].TOTAL_SMS_SUCCESS}}</td>
+                              <td class="text-center">{{number2.LIST_GENERAL[0].TOTAL_SMS_FAIL}}</td>
+                              <td class="text-center">{{number2.LIST_GENERAL[0].TOTAL_SMS}}</td>
+                            </tr>
+                            <ng-container *ngFor="let number3 of number2.LIST_GENERAL; let i3= index;">
+                              <tr *ngIf="i3!=0">
+                                <td>{{number3.TELCO}}</td>
+                                <td *ngIf="isAdmin">{{number3.PARTNER_NAME}}</td>
+                                <td class="text-center">{{number3.TOTAL_SMS_SUCCESS}}</td>
+                                <td class="text-center">{{number3.TOTAL_SMS_FAIL}}</td>
+                                <td class="text-center">{{number3.TOTAL_SMS}}</td>
+                              </tr>
+                            </ng-container>
+                            <tr style="font-weight:bold;background-color: #26A69A;color: #fff;">
+                              <td class="text-center" *ngIf="!isAdmin">{{'global.total' | translate}}: {{number2.LIST_GENERAL[0].TELCO}}</td>
+                              <td class="text-center" [attr.colspan]="2" *ngIf="isAdmin">{{'global.total' | translate}}: {{number2.LIST_GENERAL[0].TELCO}}</td>
+                              <td class="text-center">
+                                {{number2.TOTAL_SUCCESS_TELCO}}</td>
+                              <td class="text-center">
+                                {{number2.TOTAL_FAIL_TELCO}}</td>
+                              <td class="text-center">
+                                {{number2.TOTAL_TELCO}}</td>
+                            </tr>
+                          </ng-container>
+                          <tr style="font-weight:bold;background-color: #6b3030;color: #fff;">
+                            <td class="text-center" [attr.colspan]="2" *ngIf="!isAdmin">{{'global.total' | translate}}: {{number1.SENDER_NAME}}</td>
+                            <td class="text-center" [attr.colspan]="3" *ngIf="isAdmin">{{'global.total' | translate}}: {{number1.SENDER_NAME}}</td>
+                            <td class="text-center">
+                              {{number1.TOTAL_SUCCESS_SENDER}}</td>
+                            <td class="text-center">
+                              {{number1.TOTAL_FAIL_SENDER}}</td>
+                            <td class="text-center">
+                              {{number1.TOTAL_SENDER}}</td>
+                          </tr>
+                        </ng-container>
+                        <tr style="font-weight:bold;background-color: #3a292e;color: #fff;">
+                          <td class="text-center" [attr.colspan]="3" *ngIf="!isAdmin">{{'global.total' | translate}}: {{item.SMS_TYPE}}</td>
+                          <td class="text-center" [attr.colspan]="4" *ngIf="isAdmin">{{'global.total' | translate}}: {{item.SMS_TYPE}}</td>
+                          <td class="text-center">
+                            {{item.TOTAL_SUCCESS_TYPE}}</td>
+                          <td class="text-center">
+                            {{item.TOTAL_FAIL_TYPE}}</td>
+                          <td class="text-center">
+                            {{item.TOTAL_TYPE}}</td>
+                        </tr>
+                      </ng-container>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- modal update trả quota tin QC-->
+  <section>
+    <div class="modal fade" bsModal #updateQuotaQCModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1"
+      role="dialog" aria-labelledby="dialog-static-name">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 id="dialog-static-name" class="modal-title pull-left">{{ 'global.confirm' | translate }}</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="updateQuotaQCModal.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <label>{{'global.note' | translate}}</label>
+                <textarea type="text" class="form-control has-feedback-left modal-popup" name="note" rows="3"
+                  placeholder="{{'global.note' | translate}}" [(ngModel)]="note" maxlength="500"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-sm"
+              (click)="updateQuotaQCModal.hide()">{{ 'global.cancel' | translate }}</button>
+            <button type="submit" class="btn btn-success btn-sm"
+              (click)="UpdateQuotaQC()">{{ 'global.confirm' | translate }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</article>

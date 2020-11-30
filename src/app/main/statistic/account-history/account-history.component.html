@@ -1,0 +1,168 @@
+<article>
+    <section>
+        <div class="page-title clearfix">
+            <div class="title_left">
+                <h3>{{ 'account_history.title' | translate }}</h3>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel portlet">
+                    <div class="x_title clearfix">
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link" onclick="collapseBox(this)"><i
+                                        class="fa fa-chevron-up"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="x_content">
+                        <form class="row form-horizontal form-label-left input_mask">
+                            <div class="col-md-2 col-sm-6 col-xs-12 form-group">
+                                <angular2-multiselect [data]="dataAccount" [(ngModel)]="selectedAccount"
+                                    [settings]="settingsFilterAccount" name="account"
+                                    (onSelect)="onSelectAccountOrType()" (onDeSelect)="onDeSelectAccountOrType()">
+                                </angular2-multiselect>
+                            </div>
+                            <div class="col-md-2 col-sm-6 col-xs-12 form-group">
+                                <angular2-multiselect [data]="dataSenderName" [(ngModel)]="selectedSender"
+                                    [settings]="settingsFilterSender" name="senderName">
+                                </angular2-multiselect>
+                            </div>
+                            <div class="col-md-2 col-sm-6 col-xs-12 form-group">
+                                <angular2-multiselect [data]="dataSmsType" [(ngModel)]="selectedSmsType"
+                                    [settings]="settingsFilterSmsType" (onSelect)="onSelectAccountOrType()"
+                                    (onDeSelect)="onDeSelectAccountOrType()" name="smsType">
+                                </angular2-multiselect>
+                            </div>
+                            <div class="col-md-2 col-sm-6 col-xs-12 form-group">
+                                <input type="text" class="form-control" name="fromDate" bsDatepicker
+                                    [bsConfig]="{dateInputFormat: 'DD/MM/YYYY', selectFromOtherMonth: true}"
+                                    (ngModelChange)="onChangeFromDate($event)"
+                                    placeholder="{{ 'partner_product.from_date' | translate }}" [(ngModel)]="timeFrom">
+                            </div>
+                            <div class="col-md-2 col-sm-6 col-xs-12 form-group">
+                                <input type="text" class="form-control" name="toDate" bsDatepicker
+                                    [bsConfig]="{dateInputFormat: 'DD/MM/YYYY', selectFromOtherMonth: true}"
+                                    placeholder="{{ 'partner_product.to_date' | translate }}" [(ngModel)]="timeTo"
+                                    (ngModelChange)="onChangeToDate($event)">
+                            </div>
+                            <div class="col-md-2 col-sm-6 col-xs-12 form-group">
+                                <angular2-multiselect [data]="dataTypeSend" [(ngModel)]="selectedTypeSend"
+                                    [settings]="settingsFilterTypeSend" name="typeSend">
+                                </angular2-multiselect>
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-xs-12 form-group">
+                                <input type="text" class="form-control" name="content" [(ngModel)]="content"
+                                    placeholder="{{ 'account_history.inContent' | translate }}">
+                            </div>
+                            <div class="col-md-2 col-sm-6 col-xs-12 form-group">
+                                <input type="text" class="form-control" name="ip" [(ngModel)]="ip"
+                                    placeholder="{{ 'account_history.inIp' | translate }}">
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback content-end">
+                                <button type="submit" style="float: right; margin-right: 10;" (click)="getData()"
+                                    class="btn btn-primary btn-sm">{{ 'global.search' | translate }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel portlet">
+                    <div class="x_title clearfix">
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link" onclick="collapseBox(this)"><i
+                                        class="fa fa-chevron-up"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="x_content">
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                <div style="text-align: center;">
+                                    <img *ngIf="loadingGrid" class="pl-2"
+                                        src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered clear-bottom">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" style="width: 60px;white-space: nowrap;">STT
+                                                </th>
+                                                <th class="text-center" style="white-space: nowrap;">
+                                                    {{ 'account_history.account' | translate }}
+                                                </th>
+                                                <th class="text-center" style="white-space: nowrap;">
+                                                    {{ 'account_history.brand_name' | translate }}
+                                                </th>
+                                                <th class="text-center" style="white-space: nowrap;">
+                                                    {{ 'account_history.content' | translate }}
+                                                </th>
+                                                <th class="text-center" style="white-space: nowrap;">
+                                                    {{ 'account_history.sms_type' | translate }}
+                                                </th>
+                                                <th class="text-center" style="white-space: nowrap;">
+                                                    {{ 'account_history.type_send' | translate }}</th>
+                                                <th class="text-center" style="white-space: nowrap;">
+                                                    {{ 'account_history.ip' | translate }}</th>
+                                                <th class="text-center" style="white-space: nowrap;">
+                                                    {{ 'account_history.time_send' | translate }}</th>
+                                                <th class="text-center" style="white-space: nowrap;">
+                                                    {{ 'account_history.quota' | translate }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-content">
+                                            <tr *ngFor="let AccountHistory of dataAccountHistory; let i = index"
+                                                [attr.data-index]="i">
+                                                <td class="text-center">
+                                                    {{pagination.pageSize * (pagination.pageIndex -1) + (i+1)}}</td>
+                                                <td class="text-center">{{AccountHistory.USER_NAME}}</td>
+                                                <td>{{AccountHistory.SENDER_NAME}}</td>
+                                                <td>{{AccountHistory.SMS_CONTENT}}</td>
+                                                <td class="text-center">{{AccountHistory.TYPE_SMS}}</td>
+                                                <td>{{AccountHistory.TYPE_SEND}}</td>
+                                                <td class="text-center">{{AccountHistory.IP }}</td>
+                                                <td class="text-center">{{AccountHistory.TIME_SEND}}</td>
+                                                <td class="text-center">{{AccountHistory.QUOTA_USED | number: '.0' }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6" style="margin: 25px 0 0 0">
+                                        Tổng số {{ pagination.totalRow }} bản ghi trong {{ pagination.totalPage }}
+                                        trang. Hiển thị
+                                        <select (change)="changePageSize($event.target.value)">
+                                            <option value="5" selected="">5</option>
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                            <option value="ALL">Tất cả</option>
+                                        </select>
+                                        bản ghi.
+                                    </div>
+                                    <div class="col-md-6 col-sm-6" style="margin-bottom:10px">
+                                        <pagination [boundaryLinks]="true" [itemsPerPage]="pagination.pageSize"
+                                            [totalItems]="pagination.totalRow" (pageChanged)="pageChanged($event)"
+                                            (numPages)="pagination.totalPage = $event"
+                                            [(ngModel)]="pagination.pageIndex" [rotate]="true" [maxSize]="5"
+                                            class="pagination-sm content-end" previousText="&lsaquo;"
+                                            nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+                                        </pagination>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</article>

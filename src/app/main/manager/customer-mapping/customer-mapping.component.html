@@ -1,0 +1,88 @@
+<article>
+    <section>
+        <div class="page-title clearfix">
+            <div class="title_left">
+                <h3>{{ 'customer_mapping.title' | translate }}</h3>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel portlet">
+                    <div class="x_content">
+                        <form class="row form-horizontal form-label-left input_mask">
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+                                <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                    <label>{{'customer_mapping.accountParent' | translate}}</label>
+                                    <angular2-multiselect [data]="dataAccountParent"
+                                        [(ngModel)]="selectedItemComboboxAccountParent"
+                                        [settings]="settingsFilterAccountParent"
+                                        (onSelect)="onItemSelectAccountParent()"
+                                        (onDeSelect)="onItemSelectAccountParent()" name="slAccountParent">
+                                    </angular2-multiselect>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                    <label>{{'customer_mapping.accountChild' | translate}}</label>
+                                    <angular2-multiselect [data]="dataAccountChild"
+                                        [(ngModel)]="selectedItemComboboxAccountChild"
+                                        [settings]="settingsFilterAccountChild" (onSelect)="onItemSelectAccountChild()"
+                                        (onDeSelect)="onItemSelectAccountChild()" name="slAccountChild">
+                                    </angular2-multiselect>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <label>{{'customer_mapping.sms_type' | translate}}</label>
+                                    <angular2-multiselect [data]="dataSmsType" [(ngModel)]="selectedSmsType"
+                                        [settings]="settingsFilterSmsType" (onSelect)="onItemSelecSmsType()"
+                                        (onDeSelect)="onItemSelecSmsType()" name="slType">
+                                    </angular2-multiselect>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <label>{{'customer_mapping.brandName' | translate}}</label>
+                                    <angular2-multiselect [data]="dataSenderName"
+                                        [(ngModel)]="selectedItemComboboxSender" [settings]="settingsFilterSender"
+                                        name="slSender">
+                                    </angular2-multiselect>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group text-right">
+                                    <button type="button" (click)="AddBrandName()"
+                                        class="btn btn-primary btn-sm">{{ 'customer_mapping.btn_add_brand' | translate }}</button>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <label>{{'customer_mapping.brand_CSKH_granted' | translate}}</label>
+                                    <select multiple class="form-control" style="height: 170px;" name="slBrandCSKH"
+                                        [(ngModel)]="slBrandCSKH">
+                                        <option *ngFor="let brandCSKH of dataSenderCSKH" [ngValue]="brandCSKH.id">
+                                            {{brandCSKH.itemName}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group text-right">
+                                    <button type="button" (click)="RevokeBrandNameCSKH()"
+                                        class="btn btn-danger btn-sm">{{ 'customer_mapping.btn_revoke_CSKH' | translate }}</button>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <label>{{'customer_mapping.brand_QC_granted' | translate}}</label>
+                                    <select multiple class="form-control" style="height: 170px;" name="slBrandQC"
+                                        [(ngModel)]="slBrandQC">
+                                        <option *ngFor="let brandQC of dataSenderQC" [ngValue]="brandQC.id">
+                                            {{brandQC.itemName}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group text-right">
+                                    <button type="button" (click)="RevokeBrandNameQC()"
+                                        class="btn btn-danger btn-sm">{{ 'customer_mapping.btn_revoke_QC' | translate }}</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</article>

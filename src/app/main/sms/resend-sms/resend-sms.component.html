@@ -1,0 +1,239 @@
+<article>
+    <section>
+        <div class="page-title clearfix">
+            <div class="title_left">
+                <h3>{{ 'customer_mapping.title' | translate }}</h3>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="row">
+            <div class="col-md-5 col-sm-5 col-xs-12">
+                <div class="x_panel portlet">
+                    <div class="x_content">
+                        <form class="row form-horizontal form-label-left input_mask">
+                            <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                    <label>{{'resend_sms.sms_type' | translate}}</label>
+                                    <angular2-multiselect [data]="dataTypeFrom"
+                                        [(ngModel)]="selectedItemComboboxTypeFrom" [settings]="settingsFilterType"
+                                        (onSelect)="onItemSelectType()" (onDeSelect)="onItemSelectType()" name="slType">
+                                    </angular2-multiselect>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                    <label>{{'customer_mapping.brandName' | translate}}</label>
+                                    <angular2-multiselect [data]="dataSender" [(ngModel)]="selectedItemComboboxSender"
+                                        [settings]="settingsFilterSender" (onSelect)="onItemSelectSender()"
+                                        (onDeSelect)="onItemDeSelectSender()" name="slSender">
+                                    </angular2-multiselect>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                    <label>{{'resend_sms.date_send' | translate}}</label>
+                                    <input type="text" class="form-control has-feedback-left" name="dateSend"
+                                        bsDatepicker autocomplete="off" (ngModelChange)="onChangeFromDate($event)"
+                                        [bsConfig]="{dateInputFormat: 'DD/MM/YYYY', selectFromOtherMonth: true}"
+                                        placeholder="{{ 'resend_sms.date_send' | translate }}" [(ngModel)]="dateFrom">
+                                    <span class="fa fa-clock-o form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <label>{{'global.choose_campaign' | translate}}</label>
+                                    <angular2-multiselect [data]="dataCampaign"
+                                        [(ngModel)]="selectedItemComboboxCampaign" [settings]="settingsFilterCampaign"
+                                        (onSelect)="onItemSelectCampaign()" (onDeSelect)="onItemSelectCampaign()"
+                                        name="slCampaign">
+                                    </angular2-multiselect>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">&nbsp;</div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">&nbsp;</div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">&nbsp;</div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">&nbsp;</div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-12">
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group">&nbsp;</div>
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group">&nbsp;</div>
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group">&nbsp;</div>
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group">&nbsp;</div>
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                    <div style="text-align: center;">
+                        <img src="../../assets/img/arrow-right.png" width="100px">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 col-sm-5 col-xs-12">
+                <div class="x_panel portlet">
+                    <div class="x_content">
+                        <form class="row form-horizontal form-label-left input_mask">
+                            <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                    <label>{{'customer_mapping.sms_type' | translate}}</label>
+                                    <angular2-multiselect [data]="dataTypeTo" [(ngModel)]="selectedItemComboboxTypeTo"
+                                        [settings]="settingsFilterType" name="slType">
+                                    </angular2-multiselect>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                    <label>{{'resend_sms.port' | translate}}</label>
+                                    <angular2-multiselect [data]="dataPartner" [(ngModel)]="selectedItemComboboxPartner"
+                                        [settings]="settingsFilterPartner" name="slPartner">
+                                    </angular2-multiselect>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12 form-group">
+                                    <label>{{'resend_sms.time_send' | translate}}</label>
+                                    <!-- <input type="text" class="form-control has-feedback-left" name="timeSend"
+                                        (onShown)="onOpenCalendar($event)" bsDatepicker autocomplete="off"
+                                        [bsConfig]="{dateInputFormat: 'HH:mm'}" [(ngModel)]="timeFrom"
+                                        placeholder="{{ 'resend_sms.time_send' | translate }}">
+                                    <span class="fa fa-clock-o form-control-feedback left" aria-hidden="true"></span> -->
+                                    <input type="time" id="input" class="form-control" name="timeSend" [(ngModel)]="timeSend" />
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <label>{{'resend_sms.content' | translate}}</label>
+                                    <textarea rows="3" class="form-control" style="resize: vertical;padding: 2px 9px;"
+                                        name="smsContent" placeholder="{{'resend_sms.content' | translate}}"
+                                        [(ngModel)]="smsContent"></textarea>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <div class="checkbox" style="display: inline-block">
+                                        <label> <input type="checkbox" value="" class="checkbox" name="viettel"
+                                                [(ngModel)]="isCheckVTL">
+                                            <span>Viettel</span> </label>
+                                    </div>
+                                    <div class="checkbox" style="display: inline-block; margin-left: 20px;">
+                                        <label><input type="checkbox" value="" class="checkbox" name="mobiphone"
+                                                [(ngModel)]="isCheckVMS">
+                                            <span>MobiFone</span> </label>
+                                    </div>
+                                    <div class="checkbox" style="display: inline-block; margin-left: 20px;">
+                                        <label><input type="checkbox" value="" class="checkbox" name="vinaphone"
+                                                [(ngModel)]="isCheckGPC">
+                                            <span>Vinaphone</span> </label>
+                                    </div>
+                                    <div class="checkbox" style="display: inline-block; margin-left: 20px;">
+                                        <label><input type="checkbox" value="" class="checkbox" name="vietnameMobile"
+                                                [(ngModel)]="isCheckVNM">
+                                            <span>VietNamobile</span> </label>
+                                    </div>
+                                    <div class="checkbox" style="display: inline-block; margin-left: 20px;">
+                                        <label><input type="checkbox" value="" class="checkbox" name="gtel"
+                                                [(ngModel)]="isCheckGTEL">
+                                            <span>Gtel</span> </label>
+                                    </div>
+                                    <div class="checkbox" style="display: inline-block; margin-left: 20px;">
+                                        <label><input type="checkbox" value="" class="checkbox" name="sfone"
+                                                [(ngModel)]="isCheckSFONE">
+                                            <span>Sfone</span> </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-9 col-sm-9 col-xs-9 form-group">
+                                    <p style="color: red;">Lưu ý: Nếu không chọn trường nào thì mặc định gửi lại theo
+                                        thông tin cũ</p>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-3 form-group text-right">
+                                    <button type="button" (click)="confirmSendSMSModal.show()"
+                                        class="btn btn-primary btn-sm">{{ 'resend_sms.re_send' | translate }}</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel portlet">
+                    <div class="x_title clearfix">
+                        <h2>{{ 'resend_sms.info_campaign' | translate }}</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link" onclick="collapseBox(this)"><i
+                                        class="fa fa-chevron-up"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="x_content">
+                        <div style="text-align: center;">
+                            <img *ngIf="loadingGrid" class="pl-2"
+                                src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered clear-bottom">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" style="white-space: nowrap;">
+                                                    {{ 'campaign.sender_name' | translate }}
+                                                </th>
+                                                <th class="text-center" style="white-space: nowrap;">
+                                                    {{ 'campaign.code_name' | translate }}</th>
+                                                <th class="text-center" style="white-space: nowrap; min-width: 200px;">
+                                                    {{ 'campaign.sms_template' | translate }}</th>
+                                                <th class="text-center" style="white-space: nowrap;">
+                                                    {{ 'campaign.sms_type' | translate }}</th>
+                                                <th class="text-center" style="white-space: nowrap;">
+                                                    {{ 'campaign.status' | translate }}</th>
+                                                <th class="text-center" style="white-space: nowrap;">
+                                                    {{ 'campaign.create_date' | translate }}</th>
+                                                <th class="text-center" style="white-space: nowrap;">
+                                                    {{ 'campaign.timeschedule' | translate }}
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of dataCampaignDetail; let i = index"
+                                                [attr.data-index]="i">
+                                                <td class="text-center">{{item.SENDER_NAME}}</td>
+                                                <td>{{item.CODE_NAME}}</td>
+                                                <td><textarea rows="1" class="form-control"
+                                                        style="resize: vertical;padding: 2px 9px;"
+                                                        readonly>{{item.SMS_TEMPLATE}}</textarea></td>
+                                                <td class="text-center">{{item.SMS_TYPE}}</td>
+                                                <td class="text-center">
+                                                    {{item.STATUS == '0' ? (item.SMS_TYPE == 'QC' ? 'Chờ duyệt' : 'Chờ gửi') : item.STATUS == '1' ? 'Chờ kết quả' : item.STATUS == '2'? "Hoàn thành" : item.STATUS == '3' ? "Hủy đơn"  : ''}}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{item.CREATE_DATE}}</td>
+                                                <td class="text-center">{{item.TIMESCHEDULE}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</article>
+<!-- confirm gửi tin -->
+<div class="modal fade" bsModal #confirmSendSMSModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1"
+  role="dialog" aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-static-name" class="modal-title pull-left">{{'global.confirm' | translate}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="confirmSendSMSModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <div>{{'global.ask_send_sms' | translate}}</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <img *ngIf="loading" class="pl-2" style="margin-right: 10px"
+          src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+        <button type="button" class="btn btn-default"
+          (click)="confirmSendSMSModal.hide()">{{'global.cancel' | translate}}</button>
+        <button type="submit" class="btn btn-success" (click)="ReSendSms()"
+          [disabled]="loading">{{'global.confirm' | translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>

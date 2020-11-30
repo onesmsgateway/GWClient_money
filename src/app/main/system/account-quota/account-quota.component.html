@@ -1,0 +1,217 @@
+<article>
+    <section>
+        <div class="page-title clearfix">
+            <div class="title_left">
+                <h3>{{'account_cimast.quota_manager' | translate}}</h3>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel portlet">
+                    <div class="x_content">
+                        <div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback">
+                            <angular2-multiselect [data]="dataAccount" [(ngModel)]="selectedAccount"
+                                [settings]="settingsFilterAccount" (onSelect)="onItemSelect()"
+                                (onDeSelect)="OnItemDeSelect()" name="accountID">
+                            </angular2-multiselect>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel portlet">
+                    <div class="x_content">
+                        <form class="form-horizontal form-label-left input_mask">
+                            <div class="form-group">
+                                <div class="form-group has-feedback content-end">
+                                    <!-- <button type="button" class="btn btn-primary btn-sm" *ngIf="role.IS_ADD"
+                                        (click)="openFormCapTin()">{{'account_cimast.create_trans' | translate}}</button> -->
+                                    <button type="button" class="btn btn-primary btn-sm"
+                                        (click)="openFormCapTin()">{{'account_cimast.create_trans' | translate}}</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered clear-bottom">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" style="width: 60px">
+                                                    {{'global.order' | translate}}</th>
+                                                <th class="text-center" style="width: 80px">
+                                                    {{'account_cimast.service' | translate}}</th>
+                                                <th class="text-center">{{'account_cimast.quota_sum' | translate}}</th>
+                                                <th class="text-center">{{'account_cimast.quota_remain' | translate}}
+                                                </th>
+                                                <th class="text-center">{{'account_cimast.create_user' | translate}}
+                                                </th>
+                                                <th class="text-center" style="width: 80px">
+                                                    {{'account_cimast.detail' | translate}}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-content">
+                                            <tr *ngFor="let item of dataAccountCimast; let i = index"
+                                                [attr.data-index]="i">
+                                                <td class="text-center">{{i + 1}}</td>
+                                                <td>{{item.SERVICENAME}}</td>
+                                                <td>{{item.IN_AMT | number: '.0'}}</td>
+                                                <td>{{item.AMT | number: '.0'}}</td>
+                                                <td>{{item.CREATE_USER}}</td>
+                                                <td class="text-center">
+                                                    <div class="tool">
+                                                        <button type="submit" class="btn btn-success btn-sm"
+                                                            (click)="showConfirmViewHis(item.ACCOUNT_ID, item.SERVICENAME)">{{'global.view' | translate}}</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</article>
+
+<!-- modal cấp tin tài khoản-->
+<div class="modal fade" bsModal #createAccountCimastTransModel="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1"
+    role="dialog" aria-labelledby="dialog-static-name">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="dialog-static-name" class="modal-title pull-left">
+                    {{'account_cimast_tran.quota_trans' | translate}}</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="closeFormCreate()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form #trans="ngForm" (ngSubmit)="createAccountCimastTrans(trans.value)">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <label>{{'account_cimast_tran.account_id' | translate}}</label>
+                            <angular2-multiselect [data]="dataAccount" [(ngModel)]="selectedAccount"
+                                [settings]="settingsFilterAccount" name="accountID">
+                            </angular2-multiselect>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <label>{{'account_cimast_tran.type_services' | translate}}</label>
+                            <angular2-multiselect [data]="dataSmsType" [(ngModel)]="selectedSmsType"
+                                [settings]="settingsFilterSmsType" name="smsType">
+                            </angular2-multiselect>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <label>{{'account_cimast_tran.account_amt' | translate}}</label>
+                            <input type="number" class="form-control" min="0" name="amt" [(ngModel)]="valueAmt">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-5ths col-sm-4 col-xs-12 form-group">
+                            <label>{{'account_cimast_tran.price_viettel' | translate}}</label>
+                            <input type="number" class="form-control" min="0" name="price_viettel" [(ngModel)]="price_viettel">
+                        </div>
+                        <div class="col-md-5ths col-sm-4 col-xs-12 form-group">
+                            <label>{{'account_cimast_tran.price_gpc' | translate}}</label>
+                            <input type="number" class="form-control" min="0" name="price_gpc" [(ngModel)]="price_gpc">
+                        </div>
+                        <div class="col-md-5ths col-sm-4 col-xs-12 form-group">
+                            <label>{{'account_cimast_tran.price_vms' | translate}}</label>
+                            <input type="number" class="form-control" min="0" name="price_vms" [(ngModel)]="price_vms">
+                        </div>
+                        <div class="col-md-5ths col-sm-4 col-xs-12 form-group">
+                            <label>{{'account_cimast_tran.price_vnm' | translate}}</label>
+                            <input type="number" class="form-control" min="0" name="price_vnm" [(ngModel)]="price_vnm">
+                        </div>
+                        <div class="col-md-5ths col-sm-4 col-xs-12 form-group">
+                            <label>{{'account_cimast_tran.price_gtel' | translate}}</label>
+                            <input type="number" class="form-control" min="0" name="price_gtel" [(ngModel)]="price_gtel">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <label>{{'account_cimast_tran.description' | translate}}</label>
+                            <textarea type="text" class="form-control"
+                                placeholder="{{'account_cimast_tran.input_description' | translate}}" rows="3"
+                                name="description" [(ngModel)]="description_reset"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <img *ngIf="loadingCreate" class="pl-2"
+                        src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                    <button type="button" class="btn btn-default btn-sm"
+                        (click)="closeFormCreate()">{{ 'global.cancel' | translate }}</button>
+                    <button type="submit" class="btn btn-success btn-sm"
+                        #btnCreate>{{ 'global.confirm' | translate }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- modal Xem lich su cap tin-->
+<div class="modal fade" bsModal #viewAccountCimastTransModel="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1"
+    role="dialog" aria-labelledby="dialog-static-name">
+    <div class="modal-dialog modal-lg" style="width: 90%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="dialog-static-name" class="modal-title pull-left">
+                    {{'account_cimast_tran.quota_his' | translate}}
+                    {{serviceNameViewQuota}} {{'account_cimast_tran.account' | translate}} {{accountViewQuota}}
+                </h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="closeFormHis()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                        <div class="table-responsive">
+                            <table class="table table-bordered clear-bottom">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="width: 60px">
+                                            {{'global.order' | translate}}</th>
+                                        <th class="text-center">{{'account_cimast_tran.tx_num' | translate}}</th>
+                                        <th class="text-center">{{'account_cimast_tran.curren_date' | translate}}</th>
+                                        <th class="text-center">{{'account_cimast_tran.money_pay' | translate}}</th>
+                                        <th class="text-center">{{'account_cimast_tran.price_viettel' | translate}}</th>
+                                        <th class="text-center">{{'account_cimast_tran.price_gpc' | translate}}</th>
+                                        <th class="text-center">{{'account_cimast_tran.price_vms' | translate}}</th>
+                                        <th class="text-center">{{'account_cimast_tran.price_vnm' | translate}}</th>
+                                        <th class="text-center">{{'account_cimast_tran.price_gtel' | translate}}</th>
+                                        <th class="text-center">{{'account_cimast_tran.description' | translate}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-content">
+                                    <tr *ngFor="let item of dataQuotaHistory; let i = index" [attr.data-index]="i">
+                                        <td class="text-center">{{i + 1}}</td>
+                                        <td>{{item.TX_NUM}}</td>
+                                        <td>{{item.TX_DATE}}</td>
+                                        <td>{{item.AMT | number: '.0'}}</td>
+                                        <td>{{item.PRICE_VIETTEL | number: '.0'}}</td>
+                                        <td>{{item.PRICE_GPC | number: '.0'}}</td>
+                                        <td>{{item.PRICE_VMS | number: '.0'}}</td>
+                                        <td>{{item.PRICE_VNM | number: '.0'}}</td>
+                                        <td>{{item.PRICE_GTEL | number: '.0'}}</td>
+                                        <td>{{item.DESCRIPTION}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

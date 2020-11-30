@@ -1,0 +1,269 @@
+<article>
+    <section>
+        <div class="page-title clearfix">
+            <div class="title_left">
+                <h3>{{'sms_err.list_sms_err' | translate}}</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel portlet">
+                    <div class="x_title clearfix">
+                        <h2>{{ 'global.search' | translate }}</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link" onclick="collapseBox(this)"><i
+                                        class="fa fa-chevron-up"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="x_content">
+                        <form class="row form-horizontal form-label-left input_mask">
+                            <div class="col-md-5ths col-sm-6 col-xs-12 form-group">
+                                <angular2-multiselect [data]="dataAccount" [(ngModel)]="selectedAccountID"
+                                    [settings]="settingsFilterAccount" (onSelect)="onItemSelect()"
+                                    (onDeSelect)="OnItemDeSelect()" name="accountID">
+                                </angular2-multiselect>
+                            </div>
+                            <div class="col-md-5ths col-sm-6 col-xs-12 form-group has-feedback">
+                                <angular2-multiselect [data]="dataSmsType" [(ngModel)]="selectedSmsType"
+                                    [settings]="settingsFilterSmsType" name="smsType" (onSelect)="onItemSelectSmsType()"
+                                    (onDeSelect)="onItemSelectSmsType()">
+                                </angular2-multiselect>
+                            </div>
+                            <div class="col-md-5ths col-sm-6 col-xs-12 form-group">
+                                <angular2-multiselect [data]="dataSender" [(ngModel)]="selectedSenderID"
+                                    [settings]="settingsFilterSender" name="senderID">
+                                </angular2-multiselect>
+                            </div>
+                            <div class="col-md-5ths col-sm-6 col-xs-12 form-group">
+                                <input type="text" class="form-control" name="fromDate" bsDatepicker
+                                    [bsConfig]="{dateInputFormat: 'DD/MM/YYYY', selectFromOtherMonth: true}"
+                                    (ngModelChange)="onChangeFromDate($event)"
+                                    placeholder="{{ 'partner_product.from_date' | translate }}" [(ngModel)]="timeFrom">
+                            </div>
+                            <div class="col-md-5ths col-sm-6 col-xs-12 form-group">
+                                <input type="text" class="form-control" name="toDate" bsDatepicker
+                                    [bsConfig]="{dateInputFormat: 'DD/MM/YYYY', selectFromOtherMonth: true}"
+                                    placeholder="{{ 'partner_product.to_date' | translate }}" [(ngModel)]="timeTo"
+                                    (ngModelChange)="onChangeToDate($event)">
+                            </div>
+                            <div class="col-md-5ths col-sm-6 col-xs-12 form-group">
+                                <angular2-multiselect [data]="dataSmsStatus" [(ngModel)]="selectedSmsStatus"
+                                    [settings]="settingsFilterSmsStatus" name="smsStatus">
+                                </angular2-multiselect>
+                            </div>
+                            <div class="col-md-5ths col-sm-6 col-xs-12 form-group" *ngIf="isShowPartner">
+                                <angular2-multiselect [data]="dataPartner" [(ngModel)]="selectedPartnerID"
+                                    [settings]="settingsFilterPartner" name="partnerCode">
+                                </angular2-multiselect>
+                            </div>
+                            <div class="col-md-5ths col-sm-6 col-xs-12 form-group">
+                                <input type="text" class="form-control" placeholder="{{'sms_list.content' | translate}}"
+                                    name="smsContent" [(ngModel)]="smsContent">
+                            </div>
+                            <div class="col-md-5ths col-sm-6 col-xs-12 form-group">
+                                <input type="text" class="form-control" placeholder="{{'global.phone' | translate}}"
+                                    name="phone" [(ngModel)]="phone">
+                            </div>
+                            <div class="col-md-5ths col-sm-4 col-xs-12 form-group">
+                                <angular2-multiselect [data]="dataTypeSend" [(ngModel)]="selectedTypeSend"
+                                    [settings]="settingsFilterTypeSend" name="typeSend">
+                                </angular2-multiselect>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                <div class="checkbox" style="display: inline-block">
+                                    <label> <input type="checkbox" class="checkbox" name="viettel"
+                                            [(ngModel)]="viettel">
+                                        <span>Viettel</span> </label>
+                                </div>
+                                <div class="checkbox" style="display: inline-block; margin-left: 20px;">
+                                    <label><input type="checkbox" class="checkbox" name="mobiphone"
+                                            [(ngModel)]="mobiphone">
+                                        <span>MobiFone</span> </label>
+                                </div>
+                                <div class="checkbox" style="display: inline-block; margin-left: 20px;">
+                                    <label><input type="checkbox" class="checkbox" name="vinaphone"
+                                            [(ngModel)]="vinaphone">
+                                        <span>Vinaphone</span> </label>
+                                </div>
+                                <div class="checkbox" style="display: inline-block; margin-left: 20px;">
+                                    <label><input type="checkbox" class="checkbox" name="vietnameMobile"
+                                            [(ngModel)]="vietnameMobile">
+                                        <span>VietNamobile</span> </label>
+                                </div>
+                                <div class="checkbox" style="display: inline-block; margin-left: 20px;">
+                                    <label><input type="checkbox" class="checkbox" name="gtel" [(ngModel)]="gtel">
+                                        <span>Gtel</span> </label>
+                                </div>
+                                <div class="checkbox" style="display: inline-block; margin-left: 20px;">
+                                    <label><input type="checkbox" class="checkbox" name="sfone" [(ngModel)]="sfone">
+                                        <span>Sfone</span> </label>
+                                </div>
+                                <button type="button" class="btn btn-primary btn-sm"
+                                    style="float: right; margin-right: 0;" *ngIf="isAdmin"
+                                    (click)="confirmSendRepeat()">{{ 'global.send_repeat' | translate }}</button>
+                                <button type="submit" style="float: right; margin-right: 0;" #btnSearch
+                                    class="btn btn-primary btn-sm" (click)="getListSms()">
+                                    {{ 'global.search' | translate }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel portlet">
+                    <div class="x_title clearfix" style="padding: 0;">
+                        <div class="col-md-10 col-sm-12 col-xs-12 form-group has-feedback"
+                            style="display: inline-block;padding: 0">
+                            <label>
+                                {{ 'sms_err.total_sms' | translate }}: {{countAll}}
+                                ({{ 'send_sms.viettel' | translate }}: {{countVTL}},
+                                {{ 'send_sms.gpc' | translate }}: {{countGPC}}, {{ 'send_sms.vms' | translate }}:
+                                {{countVMS}},
+                                {{ 'send_sms.vnm' | translate }}: {{countVNM}}, {{ 'send_sms.gtel' | translate }}:
+                                {{countGtel}},
+                                {{ 'send_sms.sfone' | translate }}: {{countSFone}})
+                            </label>
+                        </div>
+                        <div class="col-md-2 col-sm-6 col-xs-12 form-group has-feedback content-end"
+                            style="padding-right: 0">
+                            <img *ngIf="loadingExport" class="pl-2"
+                                src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                            <button type="button" style="float: right; margin-right: 0;" class="btn btn-success btn-sm"
+                                (click)="exportExcel()" #btnExport>
+                                {{ 'global.export_excel' | translate }}</button>
+                        </div>
+                    </div>
+                    <div class="x_content">
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                <div style="text-align: center;">
+                                    <img *ngIf="loadingGrid" class="pl-2"
+                                        src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered clear-bottom">
+                                        <thead>
+                                            <tr>
+                                                <th class="box-checkbox-table">
+                                                    <div class="tool tool-check">
+                                                        <input type="checkbox" [checked]="isCheckedSms"
+                                                            (change)="checkAllSms($event.currentTarget.checked)"
+                                                            class="checkbox" />
+                                                    </div>
+                                                </th>
+                                                <th class="text-center" style="width: 100px; vertical-align: middle;">
+                                                    {{'sms_err.account' | translate}}</th>
+                                                <th class="text-center" style="width: 120px; vertical-align: middle;">
+                                                    {{'sms_list.choose_sender' | translate}}</th>
+                                                <th class="text-center" style="width: 120px; vertical-align: middle;">
+                                                    {{'sms_err.phone' | translate}}</th>
+                                                <th class="text-center" style="width: 80px; vertical-align: middle;">
+                                                    {{'sms_list.telco' | translate}}</th>
+                                                <th class="text-center" style="width: 80px; vertical-align: middle;"
+                                                    *ngIf="isAdmin">
+                                                    {{'sms_err.port' | translate}}</th>
+                                                <th class="text-center" style="width: 80px; vertical-align: middle;">
+                                                    {{'sms_list.choose_type' | translate}}</th>
+                                                <th class="text-center"
+                                                    style="vertical-align: middle; min-width: 200px;">
+                                                    {{'sms_list.content' | translate}}</th>
+                                                <th class="text-center" style="width: 80px; vertical-align: middle;">
+                                                    {{'sms_list.count_sms' | translate}}</th>
+                                                <th class="text-center" style="width: 150px; vertical-align: middle;">
+                                                    {{'sms_list.sent_time' | translate}}</th>
+                                                <th class="text-center" style="width: 100px; vertical-align: middle;">
+                                                    {{'sms_list.choose_status' | translate}}</th>
+                                                <th style="display: none;">campaign</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of dataSms; let i = index" [attr.data-index]="i">
+                                                <td class="box-checkbox-table">
+                                                    <input type="checkbox" [checked]="isCheckedSms"
+                                                        (change)="checkRowSms($event.currentTarget.checked, item.ID, item.CAMPAIGN_ID, item.SMS_TYPE)"
+                                                        value="{{item.ID}}" class="checkbox" />
+                                                </td>
+                                                <td>{{item.USER_NAME}}</td>
+                                                <td>{{item.SENDER_NAME}}</td>
+                                                <td>{{item.PHONE}}</td>
+                                                <td>{{item.TELCO == 'VMS' ? 'MobiFone' : item.TELCO == 'GPC' ? 'VinaPhone' : item.TELCO == 'VNM' ? 'VietNamobile' : item.TELCO == 'GTEL' ? 'GMobile' : item.TELCO == 'VIETTEL' ? 'Viettel' : item.TELCO}}
+                                                </td>
+                                                <td *ngIf="isAdmin">{{item.PARTNER_NAME}}</td>
+                                                <td>{{item.SMS_TYPE}}</td>
+                                                <td><textarea rows="1" class="form-control"
+                                                        style="resize: vertical;padding: 2px 9px;"
+                                                        readonly>{{item.SMS_CONTENT}}</textarea></td>
+                                                <td class="text-center">{{item.SMS_COUNT}}</td>
+                                                <td>{{convertStringDate(item.SCHEDULE_TIME)}}</td>
+                                                <td>{{item.RECEIVE_CODE + '|UNDELIVERED'}}</td>
+                                                <td style="display: none;">{{item.CAMPAIGN_ID}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6" style="margin: 25px 0 0 0">
+                                        Tổng số {{ pagination.totalRow }} bản ghi trong {{ pagination.totalPage }}
+                                        trang. Hiển thị
+                                        <select (change)="changePageSize($event.target.value)"
+                                            [value]="pagination.pageSize">
+                                            <option value="5" selected="">5</option>
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                            <option value="99999999">Tất cả</option>
+                                        </select>
+                                        bản ghi.
+                                    </div>
+                                    <div class="col-md-6 col-sm-6" style="margin-bottom:10px">
+                                        <pagination [boundaryLinks]="true" [itemsPerPage]="pagination.pageSize"
+                                            [totalItems]="pagination.totalRow" (pageChanged)="pageChanged($event)"
+                                            (numPages)="pagination.totalPage = $event"
+                                            [(ngModel)]="pagination.pageIndex" [rotate]="true" [maxSize]="5"
+                                            class="pagination-sm content-end" previousText="&lsaquo;"
+                                            nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+                                        </pagination>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <!-- modal xác nhận gửi lại tin nhắn-->
+        <div class="modal fade" bsModal #confirmSendRepeatModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1"
+            role="dialog" aria-labelledby="dialog-static-name">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 id="dialog-static-name" class="modal-title pull-left">{{ 'global.confirm' | translate }}
+                        </h4>
+                        <button type="button" class="close pull-right" aria-label="Close"
+                            (click)="confirmSendRepeatModal.hide()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div>{{'global.ask_send_repeat' | translate}} <b class="text-success">{{ids}}</b>
+                            {{'global.number' | translate}}?</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-sm"
+                            (click)="confirmSendRepeatModal.hide()">{{ 'global.cancel' | translate }}</button>
+                        <button type="submit" class="btn btn-success btn-sm"
+                            (click)="sendRepeat()">{{ 'global.confirm' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</article>

@@ -1,0 +1,276 @@
+<article>
+    <section>
+        <div class="page-title clearfix">
+            <div class="title_left">
+                <h3>{{ 'template_zalo.title' | translate }}</h3>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel portlet">
+                    <div class="x_content">
+                        <form class="row form-horizontal form-label-left input_mask">
+                            <div class="col-md-2 col-sm-3 col-xs-12 form-group has-feedback">
+                                <angular2-multiselect [data]="dataAccount" [(ngModel)]="selectedItemComboboxAccount"
+                                    [settings]="settingsFilterAccount" name="slAccount">
+                                </angular2-multiselect>
+                            </div>
+                            <div class="col-md-2 col-sm-3 col-xs-12 form-group has-feedback">
+                                <angular2-multiselect [data]="dataTokenOA" [(ngModel)]="selectedItemComboboxTokenOA"
+                                    [settings]="settingsFilterTokenOA" name="slTokenOA">
+                                </angular2-multiselect>
+                            </div>
+                            <div class="col-md-2 col-sm-3 col-xs-12 form-group has-feedback">
+                                <input type="text" class="form-control has-feedback-left" name="inTempID"
+                                    [(ngModel)]="inTempID" placeholder="{{ 'template_zalo.inTempId' | translate }}">
+                                <span class="fa fa-indent form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                <input type="text" class="form-control has-feedback-left" name="inTempName"
+                                    [(ngModel)]="inTempName" placeholder="{{ 'template_zalo.inContent' | translate }}">
+                                <span class="fa fa-indent form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+                            <div class="col-md-2 col-sm-5 col-xs-12 form-group has-feedback">
+                                <button type="submit" style="float: right; margin-right: 0;" (click)="getData()"
+                                    class="btn btn-primary btn-sm">{{ 'global.search' | translate }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel portlet">
+                    <div class="x_content">
+                        <form class="form-horizontal form-label-left input_mask">
+                            <div class="form-group">
+                                <div class="form-group has-feedback content-end">
+                                    <button type="button" class="btn btn-primary btn-sm" *ngIf="role.IS_ADD"
+                                        (click)="showModalCreate.show()">{{ 'global.add_new' | translate }}</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered clear-bottom">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" style="width:5%">STT</th>
+                                                <th class="text-center" style="white-space: nowrap;">
+                                                    {{ 'template_zalo.tempId' | translate }}</th>
+                                                    <th class="text-center">
+                                                        {{ 'template_zalo.name' | translate }}</th>
+                                                <th class="text-center" style="width:45%">
+                                                    {{ 'template_zalo.content' | translate }}</th>
+                                                <th class="text-center">{{ 'template_zalo.param' | translate }}
+                                                </th>
+                                                <th class="text-center" style="white-space: nowrap;">
+                                                    {{ 'template_zalo.note' | translate }}
+                                                </th>
+                                                <th class="text-center" style="width:8%">{{ 'global.tool' | translate }}
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of dataTemp; let i = index" [attr.data-index]="i">
+                                                <td class="text-center" scope="row">{{i+1}}</td>
+                                                <td>{{item.TEMPLATE_ID}}</td>
+                                                <td>{{item.NAME}}</td>
+                                                <td>{{item.CONTENT}}</td>
+                                                <td>{{item.PARAM}}</td>
+                                                <td>{{item.NOTE}}</td>
+                                                <td class="text-center">
+                                                    <div class="tool">
+                                                        <button type="submit" (click)="confirmUpdateModal(item.ID)"
+                                                            *ngIf="role.IS_EDIT"
+                                                            class="btn btn-success btn-sm">{{ 'global.edit' | translate }}</button>
+                                                        <button type="button" class="btn btn-danger btn-sm"
+                                                            *ngIf="role.IS_DELETE"
+                                                            (click)="showConfirmDelete(item.ID, item.TEMPLATE_ID)">{{ 'global.delete' | translate }}</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6" style="margin: 25px 0 0 0">
+                                        Tổng số {{ pagination.totalRow }} bản ghi trong {{ pagination.totalPage }}
+                                        trang. Hiển thị
+                                        <select (change)="changePageSize($event.target.value)">
+                                            <option value="5" selected="">5</option>
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                            <option value="99999999">Tất cả</option>
+                                        </select>
+                                        bản ghi.
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6 minibox" style="margin-bottom:10px">
+                                        <pagination [boundaryLinks]="true" [itemsPerPage]="pagination.pageSize"
+                                            [totalItems]="pagination.totalRow" (pageChanged)="pageChanged($event)"
+                                            (numPages)="pagination.totalPage = $event"
+                                            [(ngModel)]="pagination.pageIndex" [rotate]="true" [maxSize]="5"
+                                            class="pagination-sm content-end" previousText="&lsaquo;"
+                                            nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+                                        </pagination>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</article>
+
+<!-- Thêm mẫu temp zalo -->
+<div class="modal fade" bsModal #showModalCreate="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog"
+    aria-labelledby="dialog-static-name">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="dialog-static-name" class="modal-title pull-left">{{'template_zalo.AddTempZalo' | translate}}
+                </h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="showModalCreate.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form #formAdd="ngForm" (ngSubmit)="createTemplateZalo(formAdd)">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+                            <label>{{'login.username' | translate}} <span style="color: red;">(*)</span></label>
+                            <angular2-multiselect [data]="dataAccount" [(ngModel)]="selectedItemComboboxAccountCreate"
+                                [settings]="settingsFilterAccount" name="slAccountCreate">
+                            </angular2-multiselect>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+                            <label>{{'template_zalo.name' | translate}} <span style="color: red;">(*)</span></label>
+                            <angular2-multiselect [data]="dataTokenOA" [(ngModel)]="selectedItemComboboxTokenOACreate"
+                                [settings]="settingsFilterTokenOA" name="slTokenOACreate">
+                            </angular2-multiselect>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+                            <label>{{'template_zalo.tempId' | translate}} <span style="color: red;">(*)</span></label>
+                            <input type="text" class="form-control" name="tempId"
+                                placeholder="{{ 'template_zalo.inTempId' | translate }}" ngModel>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                            <label>{{'template_zalo.content' | translate}} <span style="color: red;">(*)</span></label>
+                            <textarea class="form-control" name="content" rows="3"
+                                placeholder="{{ 'sms_template.iTemp_content' | translate }}" ngModel></textarea>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                            <label>{{'template_zalo.param' | translate}}</label>
+                            <input type="text" class="form-control" name="param"
+                                placeholder="{{ 'template_zalo.inParam' | translate }}" ngModel>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                            <label>{{'template_zalo.note' | translate}}</label>
+                            <textarea class="form-control" name="note" rows="3"
+                                placeholder="{{ 'template_zalo.inNote' | translate }}" ngModel></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                        (click)="showModalCreate.hide()">{{ 'global.cancel' | translate }}</button>
+                    <button type="submit" class="btn btn-success">{{ 'global.confirm' | translate }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- modal sửa temp zalo -->
+<div class="modal fade" bsModal #showModalUpdate="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog"
+    aria-labelledby="dialog-static-name">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="dialog-static-name" class="modal-title pull-left">{{'template_zalo.EditTempZalo' | translate}}
+                </h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="showModalUpdate.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form [formGroup]="formEditTemplateZalo" (ngSubmit)="editTemplateZalo()">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+                            <label>{{'login.username' | translate}} <span style="color: red;">(*)</span></label>
+                            <angular2-multiselect [data]="dataAccount" [(ngModel)]="selectedItemComboboxAccountEdit"
+                                [settings]="settingsFilterAccount" formControlName="slAccountEdit">
+                            </angular2-multiselect>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+                            <label>{{'template_zalo.name' | translate}} <span style="color: red;">(*)</span></label>
+                            <angular2-multiselect [data]="dataTokenOA" [(ngModel)]="selectedItemComboboxTokenOAEdit"
+                                [settings]="settingsFilterTokenOA" formControlName="slTokenOAEdit">
+                            </angular2-multiselect>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+                            <label>{{'template_zalo.tempId' | translate}} <span style="color: red;">(*)</span></label>
+                            <input type="hidden" formControlName="id">
+                            <input type="text" class="form-control" formControlName="tempId"
+                                placeholder="{{ 'template_zalo.inTempId' | translate }}">
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                            <label>{{'template_zalo.content' | translate}} <span style="color: red;">(*)</span></label>
+                            <textarea class="form-control" formControlName="content" rows="3"
+                                placeholder="{{ 'template_zalo.inContent' | translate }}"></textarea>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                            <label>{{'template_zalo.param' | translate}}</label>
+                            <input type="text" class="form-control" formControlName="param"
+                                placeholder="{{ 'template_zalo.inParam' | translate }}">
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                            <label>{{'template_zalo.note' | translate}}</label>
+                            <textarea class="form-control" formControlName="note" rows="3"
+                                placeholder="{{ 'template_zalo.inNote' | translate }}"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                        (click)="showModalUpdate.hide()">{{ 'global.cancel' | translate }}</button>
+                    <button type="submit" class="btn btn-success">{{ 'global.confirm' | translate }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- modal xác nhận xóa temp zalo -->
+<div class="modal fade" bsModal #confirmDeleteModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1"
+    role="dialog" aria-labelledby="dialog-static-name">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="dialog-static-name" class="modal-title pull-left">{{'global.delete' | translate}}</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="confirmDeleteModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>{{'global.ask_delete' | translate}} "<b class="text-success">{{tempId}}</b>"?</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                    (click)="confirmDeleteModal.hide()">{{'global.cancel' | translate}}</button>
+                <button type="submit" class="btn btn-success"
+                    (click)="confirmDelete(id)">{{'global.confirm' | translate}}</button>
+            </div>
+        </div>
+    </div>
+</div>
