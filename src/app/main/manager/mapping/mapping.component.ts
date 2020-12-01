@@ -225,6 +225,7 @@ export class MappingComponent implements OnInit {
     this.getDataPartner();
     this.pagination.pageSize = 10;
     this.getData();
+    this.getDataTelco();
   }
 
   //#region load data account
@@ -250,7 +251,9 @@ export class MappingComponent implements OnInit {
       "&accountID=" + (this.selectedAccountFilter.length > 0 && this.selectedAccountFilter[0].id != "" ? this.selectedAccountFilter[0].id : "") +
       "&senderID=" + (this.selectedSenderFilter.length > 0 && this.selectedSenderFilter[0].id != "" ? this.selectedSenderFilter[0].id : "") +
       "&type=" + (this.selectedServiceTypeFilter.length > 0 && this.selectedServiceTypeFilter[0].id != "" ? this.selectedServiceTypeFilter[0].id : "") +
-      "&partnerID=" + (this.selectedItemComboboxPartner.length > 0 && this.selectedItemComboboxPartner[0].id != "" ? this.selectedItemComboboxPartner[0].id : ""))
+      "&partnerID=" + (this.selectedItemComboboxPartner.length > 0 && this.selectedItemComboboxPartner[0].id != "" ? this.selectedItemComboboxPartner[0].id : "") +
+      "&telCo=" + (this.selectedItemComboboxTelco.length > 0 && this.selectedItemComboboxTelco[0].id != "" ? this.selectedItemComboboxTelco[0].id : ""));
+    this.loadData(response);
     this.loadData(response);
   }
 
@@ -322,6 +325,7 @@ export class MappingComponent implements OnInit {
     this.dataTelco.push({ "id": "", "itemName": this.utilityService.translate("global.choose_telco") });
     let response: any = await this.dataService.getAsync('/api/telco')
     if (response)
+    debugger
       for (let index in response.data) {
         this.dataTelco.push({ "id": response.data[index].TEL_CODE, "itemName": response.data[index].TEL_NAME });
       }

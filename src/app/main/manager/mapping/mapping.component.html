@@ -35,8 +35,13 @@
                   [settings]="settingsFilterPartner" name="slPartner">
                 </angular2-multiselect>
               </div>
+              <div class="col-md-2 col-sm-6  col-xs-12 form-group has-feedback">
+                <angular2-multiselect [data]="dataTelco" [(ngModel)]="selectedItemComboboxTelco"
+                  [settings]="settingsFilterTelco" name="slTelco">
+                </angular2-multiselect>
+              </div>
               <!-- <div class="col-md-9 col-sm-6 col-xs-12 form-group has-feedback"></div> -->
-              <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+              <div class="col-md-2 col-sm-6 col-xs-12 form-group has-feedback">
                 <button type="button" style="float: right; margin-right: 0;" (click)="getData()"
                   class="btn btn-primary btn-sm">{{ 'global.search' | translate }}</button>
               </div>
