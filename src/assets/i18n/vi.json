@@ -832,7 +832,8 @@
     "port": "Cổng",
     "re_send": "Gửi lại",
     "sms_type": "Loại tin",
-    "info_campaign": "Thông tin đơn hàng"
+    "info_campaign": "Thông tin đơn hàng",
+    "dateResent": "Ngày gửi lại tin"
   },
   "account_info": {
     "title": "Lịch sử hoạt động",

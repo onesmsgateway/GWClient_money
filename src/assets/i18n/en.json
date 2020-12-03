@@ -827,7 +827,8 @@
     "port": "Port",
     "re_send": "Resend",
     "sms_type": "Sms type",
-    "info_campaign": "Campaign infomation"
+    "info_campaign": "Campaign infomation",
+    "dateResent": "Date Resend"
   },
   "account_info": {
     "title": "activity history",

@@ -32,6 +32,8 @@ export class ResendSmsComponent implements OnInit {
   public selectedItemComboboxPartner = [];
   public dateSend: string = "";
   public dateFrom: Date;
+  public dateTo: Date;
+  public dateResent: string;
   public timeSend: string = "";
   public smsContent: string = "";
   public loadingGrid: boolean = false;
@@ -90,6 +92,7 @@ export class ResendSmsComponent implements OnInit {
       showCheckbox: false
     };
     this.dateSend = this.utilityService.formatDateToString(this.dateFrom, "yyyyMMdd");
+    
   }
 
   ngOnInit() {
@@ -199,6 +202,9 @@ export class ResendSmsComponent implements OnInit {
     let SMS_TYPE = this.selectedItemComboboxTypeTo.length > 0 ? this.selectedItemComboboxTypeTo[0].id : "";
     let PARTNER_NAME = this.selectedItemComboboxPartner.length > 0 ? this.selectedItemComboboxPartner[0].id : "";
     let SENT_TIME = this.timeSend != "" ? this.timeSend.replace(":","") + "00" : "";
+    console.log(this.dateTo);
+    this.dateResent = this.utilityService.formatDateToString(this.dateTo, "yyyyMMdd");
+    let SENT_DATE = this.dateResent;
     let SMS_CONTENT = this.smsContent;
     let SENDER_NAME = this.selectedItemComboboxSender[0].id;
     let TELCO = "";
@@ -211,7 +217,7 @@ export class ResendSmsComponent implements OnInit {
     TELCO = TELCO != "" ? TELCO.substr(0, TELCO.length - 1) : "";
 
     let response: any = await this.dataService.postAsync('/api/sms/ResendSMS', {
-      CAMPAIGN_ID, SMS_TYPE, PARTNER_NAME, SENT_TIME, SMS_CONTENT, TELCO, SENDER_NAME
+      CAMPAIGN_ID, SMS_TYPE, PARTNER_NAME,SENT_DATE, SENT_TIME, SMS_CONTENT, TELCO, SENDER_NAME
     });
     if (response.err_code == 0) {
       this.notificationService.displaySuccessMessage(this.utilityService.getErrorMessage("250"));

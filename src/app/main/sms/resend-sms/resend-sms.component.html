@@ -80,7 +80,15 @@
                                         [settings]="settingsFilterPartner" name="slPartner">
                                     </angular2-multiselect>
                                 </div>
-                                <div class="col-md-3 col-sm-3 col-xs-12 form-group">
+                                <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                    <label>{{'resend_sms.dateResent' | translate}}</label>
+                                    <input type="text" class="form-control has-feedback-left" name="dateTo"
+                                        bsDatepicker autocomplete="off" 
+                                        [bsConfig]="{dateInputFormat: 'DD/MM/YYYY', selectFromOtherMonth: true}"
+                                        placeholder="{{ 'resend_sms.dateResent' | translate }}" [(ngModel)]="dateTo">
+                                    <span class="fa fa-clock-o form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 form-group">
                                     <label>{{'resend_sms.time_send' | translate}}</label>
                                     <!-- <input type="text" class="form-control has-feedback-left" name="timeSend"
                                         (onShown)="onOpenCalendar($event)" bsDatepicker autocomplete="off"
