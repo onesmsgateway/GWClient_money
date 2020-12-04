@@ -261,6 +261,7 @@
     "insert_time": "Insert time",
     "telco": "Telco",
     "count_sms": "Sms number",
+    "price_sms":"Money per sms",
     "port": "Port",
     "status": "Status",
     "status_detail": "Detail status",

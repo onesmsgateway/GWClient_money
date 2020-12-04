@@ -33,6 +33,7 @@ export class ResendSmsComponent implements OnInit {
   public dateSend: string = "";
   public dateFrom: Date;
   public dateTo: Date;
+  public minDate: Date;
   public dateResent: string;
   public timeSend: string = "";
   public smsContent: string = "";
@@ -92,7 +93,8 @@ export class ResendSmsComponent implements OnInit {
       showCheckbox: false
     };
     this.dateSend = this.utilityService.formatDateToString(this.dateFrom, "yyyyMMdd");
-    
+    this.minDate = new Date();
+    this.minDate.setDate(this.minDate.getDate());
   }
 
   ngOnInit() {
@@ -201,8 +203,7 @@ export class ResendSmsComponent implements OnInit {
     let CAMPAIGN_ID = this.selectedItemComboboxCampaign[0].id;
     let SMS_TYPE = this.selectedItemComboboxTypeTo.length > 0 ? this.selectedItemComboboxTypeTo[0].id : "";
     let PARTNER_NAME = this.selectedItemComboboxPartner.length > 0 ? this.selectedItemComboboxPartner[0].id : "";
-    let SENT_TIME = this.timeSend != "" ? this.timeSend.replace(":","") + "00" : "";
-    console.log(this.dateTo);
+    let SENT_TIME = this.timeSend != "" ? this.timeSend.replace(":","") + "00" : "";   
     this.dateResent = this.utilityService.formatDateToString(this.dateTo, "yyyyMMdd");
     let SENT_DATE = this.dateResent;
     let SMS_CONTENT = this.smsContent;
@@ -215,20 +216,28 @@ export class ResendSmsComponent implements OnInit {
     if (this.isCheckGTEL) TELCO += "'GTEL',";
     if (this.isCheckSFONE) TELCO += "'SFONE',";
     TELCO = TELCO != "" ? TELCO.substr(0, TELCO.length - 1) : "";
-
-    let response: any = await this.dataService.postAsync('/api/sms/ResendSMS', {
-      CAMPAIGN_ID, SMS_TYPE, PARTNER_NAME,SENT_DATE, SENT_TIME, SMS_CONTENT, TELCO, SENDER_NAME
-    });
-    if (response.err_code == 0) {
-      this.notificationService.displaySuccessMessage(this.utilityService.getErrorMessage("250"));
+    if(this.dateTo < this.minDate)
+    {
+      this.notificationService.displayErrorMessage(this.utilityService.getErrorMessage("-90"));
     }
-    else if (response.err_code == -30) {
-      this.notificationService.displayErrorMessage(this.utilityService.getErrorMessage("-30"));
+    else
+    {
+      let response: any = await this.dataService.postAsync('/api/sms/ResendSMS', {
+        CAMPAIGN_ID, SMS_TYPE, PARTNER_NAME,SENT_DATE, SENT_TIME, SMS_CONTENT, TELCO, SENDER_NAME
+      });
+      if (response.err_code == 0) {
+        this.notificationService.displaySuccessMessage(this.utilityService.getErrorMessage("250"));
+      }
+      else if (response.err_code == -30) {
+        this.notificationService.displayErrorMessage(this.utilityService.getErrorMessage("-30"));
+      }
+      else {
+        this.notificationService.displayErrorMessage(this.utilityService.getErrorMessage("110"));
+      }
     }
-    else {
-      this.notificationService.displayErrorMessage(this.utilityService.getErrorMessage("110"));
-    }
+   
     this.confirmSendSMSModal.hide();
     this.loading = false;
+    debugger;
   }
 }

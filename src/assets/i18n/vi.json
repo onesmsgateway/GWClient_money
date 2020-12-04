@@ -315,6 +315,7 @@
     "insert_time": "Thời gian tạo",
     "telco": "Nhà mạng",
     "count_sms": "Số tin",
+    "price_sms":"Số tiền",
     "port": "Cổng",
     "status": "Trạng thái",
     "status_detail": "Chi tiết lỗi",
