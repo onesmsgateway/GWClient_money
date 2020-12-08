@@ -380,11 +380,13 @@ export class CampaignComponent implements OnInit {
   }
 
   public async editContentSms() {
+    debugger;
     let formData = this.formEditContent.controls;
     let ID = formData.id.value;
     let SMS_TYPE = formData.smsType.value;
     let smsContentOld = formData.contentOld.value;
     let SMS_TEMPLATE = formData.contentNew.value;
+    let SMSCONTENTOLD = smsContentOld;
     let time = new Date(); // test cập nhật thời gian gửi, value đang = ""
     time = formData.timeSchedule.value;
     let TIMESCHEDULE = this.utilityService.formatDateToString(time, "yyyyMMddHHmmss");
@@ -420,7 +422,7 @@ export class CampaignComponent implements OnInit {
     }
     let UNICODE = this.sendUnicode ? 1 : 0;
 
-    let editCampaign = await this.dataService.putAsync('/api/Campaign/UpdateSmsTemplateCampaign', { ID, SMS_TEMPLATE, SMS_TYPE, TIMESCHEDULE, PHONE, UNICODE });
+    let editCampaign = await this.dataService.putAsync('/api/Campaign/UpdateSmsTemplateCampaign', { ID, SMSCONTENTOLD,SMS_TEMPLATE, SMS_TYPE, TIMESCHEDULE, PHONE, UNICODE });
     if (editCampaign.err_code == 0) {
       this.notificationService.displaySuccessMessage(this.utilityService.getErrorMessage("300"));
       this.editContentCampaignModel.hide();

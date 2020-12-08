@@ -493,6 +493,7 @@
     "phone_test": "Add phone test",
     "inPhone_test": "Input phone test",
     "total_quota": "Total quota",
+    "total_money_quota": "Total money",
     "status": "Status",
     "create_date": "Create date"
   },

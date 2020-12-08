@@ -89,8 +89,8 @@
                         <th class="text-center" style="white-space: nowrap; min-width: 200px;">
                           {{ 'campaign.sms_template' | translate }}</th>
                         <th class="text-center" style="white-space: nowrap;">{{ 'campaign.sms_type' | translate }}</th>
-                        <th class="text-center" style="white-space: nowrap;">{{ 'campaign.total_quota' | translate }}
-                        </th>
+                        <!-- <th class="text-center" style="white-space: nowrap;">{{ 'campaign.total_money_quota' | translate }}
+                        </th> -->
                         <th class="text-center" style="white-space: nowrap;">{{ 'campaign.status' | translate }}</th>
                         <th class="text-center" style="white-space: nowrap;" *ngIf="isAdmin">
                           {{ 'campaign.create_date' | translate }}</th>
@@ -108,7 +108,7 @@
                         <td><textarea rows="1" class="form-control" style="resize: vertical;padding: 2px 9px;"
                             readonly>{{item.SMS_TEMPLATE}}</textarea></td>
                         <td class="text-center">{{item.SMS_TYPE}}</td>
-                        <td class="text-center">{{item.COUNT_SMS}}</td>
+                        <!-- <td class="text-center">{{item.COUNT_SMS}}</td> -->
                         <td class="text-center">
                           {{item.STATUS == '0' ? (item.SMS_TYPE == 'QC' ? 'Chờ duyệt' : 'Chờ gửi') : item.STATUS == '1' ? 'Chờ kết quả' : item.STATUS == '2'? "Hoàn thành" : item.STATUS == '3' ? "Hủy đơn"  : ''}}
                         </td>
